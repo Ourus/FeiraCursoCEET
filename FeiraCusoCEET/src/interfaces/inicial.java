@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package interfaces;
 
 import java.awt.Color;
@@ -18,58 +17,60 @@ import bancoDeDados.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import modelos.*;
+import extra.Cpf;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.Icon;
 
 /**
  *
  * @author alunom
  */
 public class inicial extends javax.swing.JFrame {
-    
-    AlunoBD alunobd = new AlunoBD();
-    Aluno aluno = new Aluno();
+
+    Icon imagem = (new ImageIcon("logoOuro.jpg"));
+    String caminhoM = "";
+    String usuarioM = "";
+    String senhaM = "";
+
+    Cpf cpf = new Cpf();
+    TurmaBD turmabd = new TurmaBD();
+    Turma turma = new Turma();
     ConvidadoBD convidadobd = new ConvidadoBD();
     Convidado convidado = new Convidado();
-    ArrayList<Aluno> listaAlunos;
+    ArrayList<Turma> listaTurma;
+    ArrayList<Turma> listaTurmaSelecionadaTurno;
     int i = 0;
 
-    public inicial() {
-        initComponents();
-        URL url = this.getClass().getResource("../imagens/logoOurus.png");    
-Image iconeTitulo = Toolkit.getDefaultToolkit().getImage(url);    
-this.setIconImage(iconeTitulo); 
-        
-         this.getContentPane().setBackground(new Color(255,255,255));
-        
-        this.setTitle("Feira de Curso CEET");
+    public inicial(String caminho, String usuario, String senha) {
 
-        atualizarBanco(-1);      
-         this.setLocationRelativeTo(null);
-        cbxTelaCadastroAlunoCurso.removeAllItems();
+        this.caminhoM = caminho;
+        this.usuarioM = usuario;
+        this.senhaM = senha;
+
+        initComponents();
+             
+        this.setSize(900, 700);
+        this.getContentPane().setBackground(new Color(255, 255, 255));
+
+     
+        this.setTitle("Feira de Curso CEET ");
+
+        //  atualizarBanco(-1);
+        this.setLocationRelativeTo(null);
+        cbxAluno.removeAllItems();
         cbxEscolaridade.removeAllItems();
-        
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Informatica");
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Redes de Computadores");
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Jogos Digitais");
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Administração");
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Rádio & TV");
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Produção de Moda");
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Modelagem de Vestuário");
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Comércio Exterior");
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Hospedagem");
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Eventos");
-        cbxTelaCadastroAlunoCurso.addItem("Téc. Restaurante e Bar");
-         
-         cbxEscolaridade.addItem("Fundamental incompleto");
-         cbxEscolaridade.addItem("Fundamental completo");
-         cbxEscolaridade.addItem("Médio incompleto");
-         cbxEscolaridade.addItem("Médio completo");
-         cbxEscolaridade.addItem("Técnico incompleto");
-         cbxEscolaridade.addItem("Técnico completo");
-         cbxEscolaridade.addItem("Superior incompleto");
-         cbxEscolaridade.addItem("Superior completo");
-       
-         
-         //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        cbxEscolaridade.addItem("Fundamental completo");
+        cbxEscolaridade.addItem("Médio incompleto");
+        cbxEscolaridade.addItem("Médio completo");
+        cbxEscolaridade.addItem("Técnico incompleto");
+        cbxEscolaridade.addItem("Técnico completo");
+        cbxEscolaridade.addItem("Superior incompleto");
+        cbxEscolaridade.addItem("Superior completo");
+
+        // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -82,441 +83,365 @@ this.setIconImage(iconeTitulo);
     private void initComponents() {
 
         jLabel6 = new javax.swing.JLabel();
+        btgTurno = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        cbxAluno = new javax.swing.JComboBox();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        tfCPF = new javax.swing.JFormattedTextField();
-        tfNome = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        tfTelefone = new javax.swing.JFormattedTextField();
-        jLabel11 = new javax.swing.JLabel();
-        cbxEscolaridade = new javax.swing.JComboBox();
         btCadastrarConvidado = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        tfNome = new javax.swing.JTextField();
+        tfCPF = new javax.swing.JFormattedTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         tfEmail = new javax.swing.JTextField();
+        tfTelefone = new javax.swing.JFormattedTextField();
+        jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         tfCelular = new javax.swing.JFormattedTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        cbxEscolaridade = new javax.swing.JComboBox();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        tfNomeAluno = new javax.swing.JTextField();
-        cbxTelaCadastroAlunoCurso = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
-        btCadastroAluno = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
+        rbMatutino = new javax.swing.JRadioButton();
+        rbVespertino = new javax.swing.JRadioButton();
+        rbNoturno = new javax.swing.JRadioButton();
+        cbxAluno = new javax.swing.JComboBox();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        miClassificacao = new javax.swing.JMenuItem();
+        miCadastroConvidado = new javax.swing.JMenuItem();
+        miSair = new javax.swing.JMenuItem();
 
         jLabel6.setText("jLabel6");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Feira");
         setResizable(false);
+        getContentPane().setLayout(null);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/vasco6_fw.png"))); // NOI18N
         jLabel1.setText("jLabel1");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(150, 10, 537, 182);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/feiracurso.jpg"))); // NOI18N
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/feira3.jpg"))); // NOI18N
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(0, 205, 381, 477);
 
-        jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabbedPane1MouseClicked(evt);
-            }
-        });
-        jTabbedPane1.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                jTabbedPane1AncestorAdded(evt);
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel5.setText("Aluno:");
-
-        cbxAluno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Convidado", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 2, 24), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        jLabel7.setText("<html>Nome<font color='red'>*</font>:</html>");
-
-        jLabel8.setText("<html>CPF<font color='red'>*</font>:</html>");
-
-        try {
-            tfCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        jLabel9.setText("E-Mail:");
-
-        jLabel10.setText("Telefone:");
-
-        try {
-            tfTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ####-####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        jLabel11.setText("Escolaridade:");
-
-        cbxEscolaridade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
+        btCadastrarConvidado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icons 1/accept.png"))); // NOI18N
         btCadastrarConvidado.setText("Cadastrar Convidado");
         btCadastrarConvidado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btCadastrarConvidadoActionPerformed(evt);
             }
         });
+        getContentPane().add(btCadastrarConvidado);
+        btCadastrarConvidado.setBounds(620, 590, 180, 40);
 
-        tfEmail.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tfEmailKeyTyped(evt);
-            }
-        });
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setText("<html>Nome<font color='red'>*</font>:</html>");
+        getContentPane().add(jLabel7);
+        jLabel7.setBounds(420, 250, 60, 20);
+        getContentPane().add(tfNome);
+        tfNome.setBounds(530, 250, 270, 30);
 
+        try {
+            tfCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        getContentPane().add(tfCPF);
+        tfCPF.setBounds(530, 280, 120, 30);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel8.setText("<html>CPF<font color='red'>*</font>:</html>");
+        getContentPane().add(jLabel8);
+        jLabel8.setBounds(420, 280, 50, 20);
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setText("E-Mail:");
+        getContentPane().add(jLabel9);
+        jLabel9.setBounds(420, 310, 50, 20);
+        getContentPane().add(tfEmail);
+        tfEmail.setBounds(530, 310, 210, 30);
+
+        try {
+            tfTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ####-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        getContentPane().add(tfTelefone);
+        tfTelefone.setBounds(530, 350, 130, 30);
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setText("Telefone:");
+        getContentPane().add(jLabel10);
+        jLabel10.setBounds(420, 350, 70, 20);
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("celular:");
+        getContentPane().add(jLabel12);
+        jLabel12.setBounds(420, 390, 60, 20);
 
         try {
             tfCelular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        getContentPane().add(tfCelular);
+        tfCelular.setBounds(530, 390, 130, 30);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(133, 133, 133)
-                                .addComponent(btCadastrarConvidado))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfNome)
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(tfCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(tfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(tfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE))))))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel12)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxEscolaridade, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(tfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(tfTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(tfCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(cbxEscolaridade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addComponent(btCadastrarConvidado))
-        );
+        cbxEscolaridade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(cbxEscolaridade);
+        cbxEscolaridade.setBounds(530, 430, 270, 30);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxAluno, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(cbxAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel11.setText("Escolaridade:");
+        getContentPane().add(jLabel11);
+        jLabel11.setBounds(420, 430, 90, 20);
 
-        jTabbedPane1.addTab("Convidado", jPanel2);
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("Turma:");
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(430, 540, 60, 20);
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Iskoola Pota", 1, 36)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 51, 255));
+        jLabel3.setText("Convidado");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(540, 200, 210, 30);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrar novo Aluno", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 2, 24), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        jLabel3.setText("Nome:");
-
-        cbxTelaCadastroAlunoCurso.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel4.setText("Curso:");
-
-        btCadastroAluno.setText("Cadastrar Aluno");
-        btCadastroAluno.addActionListener(new java.awt.event.ActionListener() {
+        btgTurno.add(rbMatutino);
+        rbMatutino.setText("MATUTINO");
+        rbMatutino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btCadastroAlunoActionPerformed(evt);
+                rbMatutinoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rbMatutino);
+        rbMatutino.setBounds(450, 480, 93, 23);
+
+        btgTurno.add(rbVespertino);
+        rbVespertino.setText("VESPERTINO");
+        rbVespertino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbVespertinoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rbVespertino);
+        rbVespertino.setBounds(570, 480, 110, 23);
+
+        btgTurno.add(rbNoturno);
+        rbNoturno.setText("NOTURNO");
+        rbNoturno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbNoturnoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rbNoturno);
+        rbNoturno.setBounds(700, 480, 93, 23);
+
+        cbxAluno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(cbxAluno);
+        cbxAluno.setBounds(540, 530, 260, 30);
+
+        jMenu1.setText("Janelas");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfNomeAluno, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbxTelaCadastroAlunoCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btCadastroAluno)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(tfNomeAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(cbxTelaCadastroAlunoCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addComponent(btCadastroAluno)
-                .addGap(20, 20, 20))
-        );
+        miClassificacao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        miClassificacao.setText("Classificação ");
+        miClassificacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miClassificacaoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(miClassificacao);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(132, Short.MAX_VALUE))
-        );
+        miCadastroConvidado.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        miCadastroConvidado.setText("Cadastro de Convidado");
+        miCadastroConvidado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miCadastroConvidadoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(miCadastroConvidado);
 
-        jTabbedPane1.addTab("Alunos", jPanel3);
+        miSair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
+        miSair.setText("Sair");
+        miSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                miSairActionPerformed(evt);
+            }
+        });
+        jMenu1.add(miSair);
 
-        jSeparator1.setBackground(new java.awt.Color(204, 204, 204));
-        jSeparator1.setForeground(new java.awt.Color(153, 153, 153));
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jSeparator1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jMenuBar1.add(jMenu1);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(31, 31, 31)))
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
+        setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btCadastroAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastroAlunoActionPerformed
-        // TODO add your handling code here:
-        aluno.setNomeAluno(tfNomeAluno.getText());
-        aluno.setCurso(cbxTelaCadastroAlunoCurso.getSelectedItem()+"");
-        i = alunobd.cadastrarAluno(aluno);
-      
-    }//GEN-LAST:event_btCadastroAlunoActionPerformed
-
-    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
-        // TODO add your handling code here:
-           atualizarBanco(i);
-    }//GEN-LAST:event_jTabbedPane1MouseClicked
-
     private void btCadastrarConvidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarConvidadoActionPerformed
         // TODO add your handling code here:
-          if (tfCPF.getText().trim().isEmpty() || tfNome.getText().trim().isEmpty()) {
+        if (tfCPF.getText().trim().isEmpty() || tfNome.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Os campos com * sao \n \t obrigatorios");
         } else {
-            convidado.setCpf(tfCPF.getText());
-            convidado.setEmail(tfEmail.getText());
-            convidado.setEscolaridade(cbxEscolaridade.getSelectedItem()+"");
-            convidado.setNome(tfNome.getText());
-            convidado.setTelefone(tfTelefone.getText());
-            convidado.setCelular(tfCelular.getText());
-            
-             convidadobd.cadastrarConvidado(listaAlunos.get(cbxAluno.getSelectedIndex()).getCodAluno(), convidado);
-            
-           
-           tfCPF.setText(null);
-           tfEmail.setText(null);
-           tfNome.setText(null);
-           tfTelefone.setText(null);
-           tfCelular.setText(null);
-           
+            if (cpf.cfp(tfCPF.getText())) {
+                convidado.setCpf(tfCPF.getText());
+                convidado.setEmail(tfEmail.getText());
+                convidado.setEscolaridade(cbxEscolaridade.getSelectedItem() + "");
+                convidado.setNome(tfNome.getText());
+                convidado.setTelefone(tfTelefone.getText());
+                convidado.setCelular(tfCelular.getText());
+                convidadobd.cadastrarConvidado(listaTurmaSelecionadaTurno.get(cbxAluno.getSelectedIndex()), convidado, this.caminhoM, this.usuarioM, this.senhaM);
 
-          
+                //convidadobd.cadastrarConvidado(listaTurma.get(cbxAluno.getSelectedIndex()), convidado);
+                tfCPF.setText(null);
+                tfEmail.setText(null);
+                tfNome.setText(null);
+                tfTelefone.setText(null);
+                tfCelular.setText(null);
+                btgTurno.clearSelection();
+                cbxAluno.removeAllItems();
+                cbxAluno.removeAllItems();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "CPF não e valido");
+            }
         }
     }//GEN-LAST:event_btCadastrarConvidadoActionPerformed
 
-    private void tfEmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmailKeyTyped
-        if(tfEmail.getText().length() > 80)
-        {
-            evt.consume();
-        }
-    }//GEN-LAST:event_tfEmailKeyTyped
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
 
-    private void jTabbedPane1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTabbedPane1AncestorAdded
-        atualizarBanco(i);
-    }//GEN-LAST:event_jTabbedPane1AncestorAdded
+
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void miSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSairActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_miSairActionPerformed
+
+    private void miCadastroConvidadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miCadastroConvidadoActionPerformed
+        // TODO add your handling code here:
+        CadatroConvidado telaC = new CadatroConvidado(this, true, this.caminhoM, this.usuarioM, this.senhaM);
+        telaC.setVisible(true);
+    }//GEN-LAST:event_miCadastroConvidadoActionPerformed
+
+    private void miClassificacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miClassificacaoActionPerformed
+        // TODO add your handling code here:
+        TelaClassificacao tela = new TelaClassificacao(this, true, this.caminhoM, this.usuarioM, this.senhaM);
+        tela.setVisible(true);
+    }//GEN-LAST:event_miClassificacaoActionPerformed
+
+    private void rbMatutinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMatutinoActionPerformed
+        listaTurmaSelecionadaTurno = new ArrayList();
+        cbxAluno.removeAllItems();
+
+        for (Turma tur : turmabd.listadeTurma(caminhoM, usuarioM, senhaM)) {
+            if (tur.getTurno().trim().equals("MATUTINO")) {
+                listaTurmaSelecionadaTurno.add(tur);
+                cbxAluno.addItem(tur.getNomeCurso());
+            }
+
+        }
+    }//GEN-LAST:event_rbMatutinoActionPerformed
+
+    private void rbVespertinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbVespertinoActionPerformed
+        cbxAluno.removeAllItems();
+        listaTurmaSelecionadaTurno = new ArrayList();
+
+        for (Turma tur : turmabd.listadeTurma(caminhoM, usuarioM, senhaM)) {
+            if (tur.getTurno().trim().equals("VESPERTINO")) {
+                listaTurmaSelecionadaTurno.add(tur);
+                cbxAluno.addItem(tur.getNomeCurso());
+            }
+        }
+    }//GEN-LAST:event_rbVespertinoActionPerformed
+
+    private void rbNoturnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbNoturnoActionPerformed
+        listaTurmaSelecionadaTurno = new ArrayList();
+        cbxAluno.removeAllItems();
+        for (Turma tur : turmabd.listadeTurma(caminhoM, usuarioM, senhaM)) {
+            if (tur.getTurno().trim().equals("NOTURNO")) {
+                listaTurmaSelecionadaTurno.add(tur);
+                cbxAluno.addItem(tur.getNomeCurso());
+            }
+        }
+    }//GEN-LAST:event_rbNoturnoActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
-     private void atualizarBanco(int idOrganizar)
-    {
-        
-        cbxAluno.removeAllItems();
-        listaAlunos = alunobd.listarAlunosCadastrados();
-        
-        for (Aluno temp : listaAlunos) {
-            cbxAluno.addItem(temp.getNomeAluno());
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
 
-        }
-        
-        if(idOrganizar != -1)
-        {
-            for (int i = 0; i<listaAlunos.size(); i++) 
-            {
-              if(listaAlunos.get(i).getCodAluno() == idOrganizar)
-              {
-                  cbxAluno.setSelectedIndex(i);
-                  break;
-              }
+                }
             }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(inicial.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(inicial.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(inicial.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(inicial.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new inicial("", "", "").setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCadastrarConvidado;
-    private javax.swing.JButton btCadastroAluno;
+    private javax.swing.ButtonGroup btgTurno;
     private javax.swing.JComboBox cbxAluno;
     private javax.swing.JComboBox cbxEscolaridade;
-    private javax.swing.JComboBox cbxTelaCadastroAlunoCurso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem miCadastroConvidado;
+    private javax.swing.JMenuItem miClassificacao;
+    private javax.swing.JMenuItem miSair;
+    private javax.swing.JRadioButton rbMatutino;
+    private javax.swing.JRadioButton rbNoturno;
+    private javax.swing.JRadioButton rbVespertino;
     private javax.swing.JFormattedTextField tfCPF;
     private javax.swing.JFormattedTextField tfCelular;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JTextField tfNome;
-    private javax.swing.JTextField tfNomeAluno;
     private javax.swing.JFormattedTextField tfTelefone;
     // End of variables declaration//GEN-END:variables
 }

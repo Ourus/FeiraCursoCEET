@@ -1,17 +1,19 @@
-create database if not exists feira_de_curso;
-use feira_de_curso;
-create table if not exists aluno (
-codAluno int unsigned not null auto_increment,
-nome varchar(80),
-primary key (codAluno)
-);
-create table if not exists convidado (
-codAluno int unsigned not null,
-nome varchar(80) not null,
-cpf varchar (11) not null,
-email varchar(90),
-escolaridade varchar(20),
-telefone varchar(12),
-foreign key (codAluno) references aluno (codAluno),
-primary key (cpf)
-);
+create table if not exists feira_de_curso.curso (+
+                        "codCurso int unsigned not null auto_increment," +
+                        "nome varchar(80),"
+                    + " turno varchar(15)," +
+                        "primary key (codCurso)" +
+                        ")" ;
+                
+create table if not exists feira_de_curso.convidado (
+                      codCurso int unsigned not null,
+                      nome varchar(80) not null,
+                      cpf varchar (15) not null,
+                      email varchar(90),
+                      escolaridade varchar(20),
+                      telefone varchar(15),
+                      celular varchar(16),
+                        foreign key (codCurso) references feira_de_curso.curso (codCurso),
+                        primary key (cpf)
+                        );
+ load data local infile 'c:\\banco.txt' into table feira_de_curso.curso;
